@@ -1,13 +1,18 @@
 class User < ApplicationRecord
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
+  has_many :reactions
+  has_many :chat_room_users
+  has_many :chat_rooms, through: :chat_room_users
+  has_many :chat_messages
+
   devise :database_authenticatable, :registerable,
-         :recoverable, :rememberable, :validatable
+          :recoverable, :rememberable, :validatable
 
   validates :name, presence: true
   validates :self_introduction, length: { maximum: 500 }
 
-  enum gender: { 男性: 0, 女性: 1 }
+  enum gender: { man: 0, woman: 1 }
 
   mount_uploader :profile_image, ProfileImageUploader
 
